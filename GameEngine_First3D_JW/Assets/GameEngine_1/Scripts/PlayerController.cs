@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
     
     // Animator 컴포넌트 참조 (private - Inspector에 안 보임)
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         // 게임 시작 시 한 번만 - Animator 컴포넌트 찾아서 저장
         animator = GetComponent<Animator>();
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        
         // 디버그: 제대로 찾았는지 확인
         if (animator != null)
         {
@@ -33,39 +35,54 @@ public class PlayerController : MonoBehaviour
     if (Input.GetKey(KeyCode.A))
     {
         movement += Vector3.left;
-        transform.localScale = new Vector3(-1, 1, 1); // X축 뒤집기
+            //transform.localScale = new Vector3(-1, 1, 1); // X축 뒤집기
+            spriteRenderer.flipX = true;
     }
- 
-    if (Input.GetKey(KeyCode.D))
-    {
-        movement += Vector3.right;
-        transform.localScale = new Vector3(1, 1, 1); // 원래 방향
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            movement += Vector3.right;
+            //transform.localScale = new Vector3(1, 1, 1); // 원래 방향
+            spriteRenderer.flipX = false;
         
     }
     
     if (Input.GetKey(KeyCode.W))
     {
         movement += Vector3.up;
-        transform.localScale = new Vector3(1, 1, 1); // 원래 방향
         
     }
 
     if (Input.GetKey(KeyCode.S))
     {
         movement += Vector3.down;
-        transform.localScale = new Vector3(1, 1, 1); 
         
     }
 
+     float currentMoveSpeed = moveSpeed;
+    if (Input.GetKey(KeyCode.LeftShift))
+    {
+        currentMoveSpeed = moveSpeed * 2f;
+        Debug.Log("달리기 모드 활성화!");
+    }
 
-    // 실제 이동 적용
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+            if (animator != null)
+            {
+                animator.SetBool("Jump", true);
+                Debug.Log("점프했습니다!");
+            }
+    }
+   
+        // 실제 이동 적용
         if (movement != Vector3.zero)
         {
-            transform.Translate(movement * moveSpeed * Time.deltaTime);
+            transform.Translate(movement * currentMoveSpeed * Time.deltaTime);
         }
     
     // 속도 계산: 이동 중이면 moveSpeed, 아니면 0
-    float currentSpeed = movement != Vector3.zero ? moveSpeed : 0f;
+    float currentSpeed = movement != Vector3.zero ? currentMoveSpeed : 0f;
     
     // Animator에 속도 전달
     if (animator != null)

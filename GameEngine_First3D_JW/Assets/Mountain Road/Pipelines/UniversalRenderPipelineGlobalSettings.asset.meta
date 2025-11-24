@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6f9db5ee4948cbf49af31590e20db0a4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 330056
+  packageName: Mountain Road
+  packageVersion: 1.0
+  assetPath: Assets/Mountain Road/Pipelines/UniversalRenderPipelineGlobalSettings.asset
+  uploadId: 780906
